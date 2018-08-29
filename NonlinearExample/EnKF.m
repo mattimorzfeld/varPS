@@ -1,0 +1,12 @@
+function [MSEEnKF,tracePEnKF] = EnKF(xt,Ne,e,r)
+xt =randn;
+y = M(xt,e)+1*sqrt(r)*randn;
+X = randn(1,Ne);
+Xf = M(X,e);
+P = cov(Xf);
+Xm = mean(Xf);
+K = P*((P+r)\1);
+Xam = Xm + K*(y-Xm);
+Xa = Xf+K*(y*ones(1,Ne)+1*sqrt(r)*randn(1,Ne)-Xf);
+MSEEnKF = (mean(Xa)-M(xt,e))^2;
+tracePEnKF = cov(Xa);
